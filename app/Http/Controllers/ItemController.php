@@ -29,13 +29,9 @@ class ItemController extends Controller
         return ItemResource::make($item);
     }
 
-    public function show($id)
+    public function show(Item $item)
     {
-        $item = Item::findOrFail($id);
-
-        $serializer = new ItemSerializer($item);
-
-        return new JsonResponse(['item' => $serializer->getData()]);
+        return ItemResource::make($item);
     }
 
     public function update(Request $request, int $id): JsonResponse
