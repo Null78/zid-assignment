@@ -10,4 +10,9 @@ class Item extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
+    public function scopeCurrentMonth()
+    {
+        return $this->where('created_at', '>=', now()->startOfMonth());
+    }
 }
