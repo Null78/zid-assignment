@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ItemCollection extends ResourceCollection
 {
+    public static $wrap = 'items';
+    
     /**
      * Transform the resource collection into an array.
      *
