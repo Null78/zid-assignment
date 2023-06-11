@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Item\StoreItemRequest;
+use App\Http\Requests\Item\UpdateItemRequest;
 use App\Http\Resources\Item\ItemCollection;
 use App\Http\Resources\Item\ItemResource;
 use App\Models\Item;
@@ -34,28 +35,13 @@ class ItemController extends Controller
         return ItemResource::make($item);
     }
 
-    public function update(Request $request, int $id): JsonResponse
+    public function update(UpdateItemRequest $request, Item $item, ConverterInterface $converter): ItemResource
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'url' => 'required|url',
-            'description' => 'required|string',
+        $item->update([
+            ...$request->only(['name', 'url', 'price']),
+            'description' => $converter->convert($request->get('description'))->getContent(),
         ]);
 
-        $converter = new CommonMarkConverter(['html_input' => 'escape', 'allow_unsafe_links' => false]);
-
-        $item = Item::findOrFail($id);
-        $item->name = $request->get('name');
-        $item->url = $request->get('url');
-        $item->price = $request->get('price');
-        $item->description = $converter->convert($request->get('description'))->getContent();
-        $item->save();
-
-        return new JsonResponse(
-            [
-                'item' => (new ItemSerializer($item))->getData()
-            ]
-        );
+        return ItemResource::make($item);
     }
 }
