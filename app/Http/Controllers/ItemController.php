@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Item\StoreItemRequest;
 use App\Http\Resources\Item\ItemCollection;
+use App\Http\Resources\Item\ItemResource;
 use App\Models\Item;
 use App\Serializers\ItemSerializer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\ConverterInterface;
 
 class ItemController extends Controller
 {
@@ -17,27 +19,14 @@ class ItemController extends Controller
         return ItemCollection::make($items);
     }
 
-    public function store(Request $request)
+    public function store(StoreItemRequest $request, ConverterInterface $converter)
     {
-        $this->validate($request, [
-          'name' => 'required|string|max:255',
-          'price' => 'required|numeric',
-           'url' => 'required|url',
-          'description' => 'required|string',
-        ]);
-
-        $converter = new CommonMarkConverter(['html_input' => 'escape', 'allow_unsafe_links' => false]);
-
         $item = Item::create([
-            'name' => $request->get('name'),
-            'price' => $request->get('price'),
-            'url' => $request->get('url'),
+            ...$request->only(['name', 'url', 'price']),
             'description' => $converter->convert($request->get('description'))->getContent(),
         ]);
 
-        $serializer = new ItemSerializer($item);
-
-        return new JsonResponse(['item' => $serializer->getData()]);
+        return ItemResource::make($item);
     }
 
     public function show($id)
