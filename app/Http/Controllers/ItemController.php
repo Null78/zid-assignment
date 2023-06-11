@@ -19,7 +19,7 @@ class ItemController extends Controller
         return ItemCollection::make($items);
     }
 
-    public function store(StoreItemRequest $request, ConverterInterface $converter)
+    public function store(StoreItemRequest $request, ConverterInterface $converter): ItemResource
     {
         $item = Item::create([
             ...$request->only(['name', 'url', 'price']),
@@ -29,7 +29,7 @@ class ItemController extends Controller
         return ItemResource::make($item);
     }
 
-    public function show(Item $item)
+    public function show(Item $item): ItemResource
     {
         return ItemResource::make($item);
     }
