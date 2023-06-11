@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Item\ItemCollection;
 use App\Models\Item;
 use App\Serializers\ItemSerializer;
-use App\Serializers\ItemsSerializer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use League\CommonMark\CommonMarkConverter;
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(): ItemCollection
     {
         $items = Item::all();
-
-        return JsonResponse::create(['items' => (new ItemsSerializer($items))->getData()]);
+        return ItemCollection::make($items);
     }
 
     public function store(Request $request)
