@@ -7,9 +7,6 @@ use App\Http\Requests\Item\UpdateItemRequest;
 use App\Http\Resources\Item\ItemCollection;
 use App\Http\Resources\Item\ItemResource;
 use App\Models\Item;
-use App\Serializers\ItemSerializer;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use League\CommonMark\ConverterInterface;
 
 class ItemController extends Controller
