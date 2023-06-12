@@ -28,12 +28,20 @@ statistic should be displayed.
 Please write your answers to following questions.
 
 > **Please briefly explain your implementation of the new feature**  
->  
-> _..._
+>  #### API Endpoint
+>  created a seprate invokable controller that returns the statistics for the whishlist items
+>  using Laravel Eloquent Models to query needed data then transform it with Laravel Collections to produce the desired output.
+>
+> #### Console Command
+> using the power of laravel artisan commands i have added a new command named items:stats that display a table of all the statistics by default and it also can be customized to display only one or more stat using options like --average or --total
+>
+> #### Overall
+> i believe that the statistics can be implemented more dynamiclly and implemented as a Trait, to generalize the logic so it can be used with any model and to also allow for custom arguments in the case of total price of items added this month, if the period is a parametar we can have the statistics of any period of time not just the current month
 
 > **For the refactoring, would you change something else if you had more time?**  
->  
-> _..._
+> 
+> In this limited context I would create a Website Model that contains the name and url of every Website, and then every Item will belong to a Website, this will enhance the performance of the statistics as the the items group by website will be executed at the database level insted of the application level, it will also reduce the size of each entry as we will not need to store the full url of every item, insted we just have keep the item ID and concatenate it with the website url on client side
+> 
 
 ## Running the project
 This project requires a database to run. For the server part, you can use `php artisan serve`
