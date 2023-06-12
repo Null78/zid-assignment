@@ -60,12 +60,23 @@ class ItemsStatistics extends Command
         $this->table(['Key', 'Value'], $data);
     }
 
-    public function getSelected(String $options)
+    /**
+     * Get the selected statistics
+     *
+     * @param String $options
+     * @return Collection
+     */
+    public function getSelected(String $options): Collection
     {
         return $this->{'get' . Str::studly($options)}();
     }
 
-    private function getAll()
+    /**
+     * Get all statistics
+     *
+     * @return array
+     */
+    private function getAll(): array
     {
         return [
             $this->getTotal(),
@@ -75,7 +86,12 @@ class ItemsStatistics extends Command
         ];
     }
 
-    private function getTotal()
+    /**
+     * Get the total number of items
+     *
+     * @return array
+     */
+    private function getTotal(): array
     {
         return [
             'Key' => 'Total',
@@ -83,7 +99,12 @@ class ItemsStatistics extends Command
         ];
     }
 
-    private function getAverage()
+    /**
+     * Get the average price of items
+     *
+     * @return array
+     */
+    private function getAverage(): array
     {
         return [
             'Key' => 'Average Price',
@@ -91,7 +112,12 @@ class ItemsStatistics extends Command
         ];
     }
 
-    private function getHighest()
+    /**
+     * Get the highest website prices
+     *
+     * @return array
+     */
+    private function getHighest(): array
     {
         return [
             'Key' => 'Highest Website Prices',
@@ -104,7 +130,12 @@ class ItemsStatistics extends Command
         ];
     }
 
-    private function getCurrentMonth()
+    /**
+     * Get the current month prices
+     *
+     * @return array
+     */
+    private function getCurrentMonth(): array
     {
         return [
             'Key' => 'Current Month Prices',
